@@ -1,0 +1,28 @@
+{
+  "name": "sztyup/dns",
+  "description": "Fully PHP based DNS client with DNSSEC validation",
+  "homepage": "https://sztyup.com/dns",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Csupity László",
+      "email": "opensource@sztyup.com",
+      "homepage": "https://sztyup.com/"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-sockets": "*",
+    "clue/socket-raw": "^1.5",
+    "mlocati/ip-lib": "^1.17"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5.11"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sztyup\\Dns\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
