@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Sztyup\Dns\RecordTypes\Basic;
+namespace Sztyup\Dns\RecordTypes\Common;
 
-use IPLib\Address\IPv6;
+use IPLib\Address\IPv4;
 use Sztyup\Dns\RecordTypes\ResourceRecord;
 use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\StringStream;
 
-class AAAA extends ResourceRecord
+class A extends ResourceRecord
 {
-    public IPv6 $ip;
+    public IPv4 $ip;
 
     protected function parseData(StringStream $stream, int $length): void
     {
-        $this->ip = IPv6::fromBytes($stream->readByteArray(16));
+        $this->ip = IPv4::fromBytes($stream->readByteArray(4));
     }
 
     protected function wireData(): BinaryString
     {
-        $data = new BinaryString();
+        $string = new BinaryString();
 
-        $data->writeBytes($this->ip->getBytes());
+        $string->writeBytes($this->ip->getBytes());
 
-        return $data;
+        return $string;
     }
 
     protected function getTextRepresentation(): string
@@ -34,6 +34,6 @@ class AAAA extends ResourceRecord
 
     public static function getId(): int
     {
-        return 28;
+        return 1;
     }
 }

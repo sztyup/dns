@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sztyup\Dns\RecordTypes\Basic;
+namespace Sztyup\Dns\RecordTypes\Common;
 
 use Sztyup\Dns\RecordTypes\ResourceRecord;
 use Sztyup\Dns\Utilities\BinaryString;
