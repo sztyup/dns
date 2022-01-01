@@ -2,38 +2,39 @@
 
 declare(strict_types=1);
 
-namespace Sztyup\Dns\RecordTypes;
+namespace Sztyup\Dns\RecordTypes\Basic;
 
+use Sztyup\Dns\RecordTypes\ResourceRecord;
 use Sztyup\Dns\Utilities\BinaryString;
+use Sztyup\Dns\Utilities\DataFormats;
 use Sztyup\Dns\Utilities\StringStream;
-use IPLib\Address\IPv6;
 
-class AAAA extends ResourceRecord
+class NS extends ResourceRecord
 {
-    public IPv6 $ip;
+    public string $domain;
 
     protected function parseData(StringStream $stream, int $length): void
     {
-        $this->ip = IPv6::fromBytes($stream->readByteArray(16));
+        $this->domain = DataFormats::readDomainName($stream);
     }
 
     protected function wireData(): BinaryString
     {
-        // TODO: Implement wireData() method.
+        return new BinaryString(DataFormats::writeDomainName($this->domain));
     }
 
     public static function getId(): int
     {
-        return 28;
+        return 2;
     }
 
     public static function getDescription(): string
     {
-        return 'IP6 Address';
+        return 'an authoritative name server';
     }
 
     protected function getTextRepresentation(): string
     {
-        return $this->ip->toString();
+        return $this->domain;
     }
 }

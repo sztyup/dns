@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sztyup\Dns\RecordTypes;
+namespace Sztyup\Dns\RecordTypes\Basic;
 
+use Sztyup\Dns\RecordTypes\ResourceRecord;
 use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\DataFormats;
 use Sztyup\Dns\Utilities\StringStream;
 
-class CNAME extends ResourceRecord
+class PTR extends ResourceRecord
 {
     public string $domain;
 
@@ -24,12 +25,12 @@ class CNAME extends ResourceRecord
 
     public static function getId(): int
     {
-        return 5;
+        return 12;
     }
 
     public static function getDescription(): string
     {
-        return 'the canonical name for an alias';
+        return 'a domain name pointer';
     }
 
     protected function getTextRepresentation(): string

@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sztyup\Dns\RecordTypes;
+namespace Sztyup\Dns\RecordTypes\Basic;
 
 use IPLib\Address\IPv4;
+use Sztyup\Dns\RecordTypes\ResourceRecord;
 use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\StringStream;
 
