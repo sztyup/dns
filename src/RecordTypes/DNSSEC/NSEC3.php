@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Sztyup\Dns\RecordTypes\DNSSEC;
 
-use Sztyup\Dns\DnsConstants;
-use Sztyup\Dns\RecordTypes\ResourceRecord;
+use Sztyup\Dns\Utilities\Base32;
 use Sztyup\Dns\Utilities\BinaryString;
-use Sztyup\Dns\Utilities\DataFormats;
 use Sztyup\Dns\Utilities\StringStream;
 
-use function ord;
 use function strlen;
 
 class NSEC3 extends NSEC
@@ -87,7 +84,7 @@ class NSEC3 extends NSEC
             $this->getFlagsValue(),
             $this->iterations,
             empty($this->salt) ? '-' : strtoupper(bin2hex($this->salt)),
-            DataFormats::base32encode($this->nextHashedOwnerName),
+            Base32::encodeHex($this->nextHashedOwnerName),
             implode(' ', $this->getTypeNames())
         );
     }
