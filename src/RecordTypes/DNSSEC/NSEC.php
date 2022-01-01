@@ -113,18 +113,13 @@ class NSEC extends ResourceRecord
         return $names;
     }
 
-    public static function getId(): int
-    {
-        return 47;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'NSEC';
-    }
-
     protected function getTextRepresentation(): string
     {
         return sprintf('%s %s', $this->nextDomainName, implode(' ', $this->getTypeNames()));
+    }
+
+    public static function getId(): int
+    {
+        return 47;
     }
 }

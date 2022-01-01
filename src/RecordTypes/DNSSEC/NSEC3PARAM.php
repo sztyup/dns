@@ -46,16 +46,6 @@ class NSEC3PARAM extends ResourceRecord
         return $string;
     }
 
-    public static function getId(): int
-    {
-        return 51;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'NSEC3PARAM';
-    }
-
     protected function getTextRepresentation(): string
     {
         return sprintf(
@@ -65,5 +55,10 @@ class NSEC3PARAM extends ResourceRecord
             $this->iterations,
             empty($this->salt) ? '-' : strtoupper(bin2hex($this->salt)),
         );
+    }
+
+    public static function getId(): int
+    {
+        return 51;
     }
 }

@@ -51,16 +51,6 @@ class SOA extends ResourceRecord
         return $string;
     }
 
-    public static function getId(): int
-    {
-        return 6;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'marks the start of a zone of authority';
-    }
-
     protected function getTextRepresentation(): string
     {
         return sprintf(
@@ -73,5 +63,10 @@ class SOA extends ResourceRecord
             $this->expire,
             $this->minimum
         );
+    }
+
+    public static function getId(): int
+    {
+        return 6;
     }
 }

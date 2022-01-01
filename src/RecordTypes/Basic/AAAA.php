@@ -27,18 +27,13 @@ class AAAA extends ResourceRecord
         return $data;
     }
 
-    public static function getId(): int
-    {
-        return 28;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'IP6 Address';
-    }
-
     protected function getTextRepresentation(): string
     {
         return $this->ip->toString();
+    }
+
+    public static function getId(): int
+    {
+        return 28;
     }
 }

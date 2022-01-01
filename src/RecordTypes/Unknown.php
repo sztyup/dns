@@ -65,9 +65,4 @@ class Unknown extends ResourceRecord
     {
         throw new RuntimeException('Undefined');
     }
-
-    public static function getDescription(): string
-    {
-        return 'Catch all type of all unknown RR types';
-    }
 }

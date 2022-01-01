@@ -38,11 +38,6 @@ class TXT extends ResourceRecord
         return 16;
     }
 
-    public static function getDescription(): string
-    {
-        return 'text strings';
-    }
-
     protected function getTextRepresentation(): string
     {
         return '"' . implode('", "', $this->texts) . '"';

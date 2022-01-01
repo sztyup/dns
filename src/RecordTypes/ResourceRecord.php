@@ -128,6 +128,4 @@ abstract class ResourceRecord implements HasWireFormat
     abstract protected function getTextRepresentation(): string;
 
     abstract public static function getId(): int;
-
-    abstract public static function getDescription(): string;
 }

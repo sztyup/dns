@@ -80,9 +80,4 @@ class DS extends ResourceRecord
     {
         return 43;
     }
-
-    public static function getDescription(): string
-    {
-        return 'Delegation Signer';
-    }
 }

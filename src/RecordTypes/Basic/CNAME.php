@@ -23,18 +23,13 @@ class CNAME extends ResourceRecord
         return new BinaryString(DataFormats::writeDomainName($this->domain));
     }
 
-    public static function getId(): int
-    {
-        return 5;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'the canonical name for an alias';
-    }
-
     protected function getTextRepresentation(): string
     {
         return $this->domain;
+    }
+
+    public static function getId(): int
+    {
+        return 5;
     }
 }

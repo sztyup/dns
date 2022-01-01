@@ -23,18 +23,13 @@ class NS extends ResourceRecord
         return new BinaryString(DataFormats::writeDomainName($this->domain));
     }
 
-    public static function getId(): int
-    {
-        return 2;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'an authoritative name server';
-    }
-
     protected function getTextRepresentation(): string
     {
         return $this->domain;
+    }
+
+    public static function getId(): int
+    {
+        return 2;
     }
 }

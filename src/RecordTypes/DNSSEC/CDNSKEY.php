@@ -14,9 +14,4 @@ class CDNSKEY extends DNSKEY
     {
         return 60;
     }
-
-    public static function getDescription(): string
-    {
-        return 'DNSKEY(s) the Child wants reflected in DS';
-    }
 }

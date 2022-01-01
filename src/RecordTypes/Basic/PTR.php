@@ -23,18 +23,13 @@ class PTR extends ResourceRecord
         return new BinaryString(DataFormats::writeDomainName($this->domain));
     }
 
-    public static function getId(): int
-    {
-        return 12;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'a domain name pointer';
-    }
-
     protected function getTextRepresentation(): string
     {
         return $this->domain;
+    }
+
+    public static function getId(): int
+    {
+        return 12;
     }
 }

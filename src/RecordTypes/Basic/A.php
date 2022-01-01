@@ -36,9 +36,4 @@ class A extends ResourceRecord
     {
         return 1;
     }
-
-    public static function getDescription(): string
-    {
-        return 'a host address';
-    }
 }

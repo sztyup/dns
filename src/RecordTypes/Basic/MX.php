@@ -31,18 +31,13 @@ class MX extends ResourceRecord
         return $data;
     }
 
-    public static function getId(): int
-    {
-        return 15;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'mail exchange';
-    }
-
     protected function getTextRepresentation(): string
     {
         return $this->preference . ' ' . $this->exchange;
+    }
+
+    public static function getId(): int
+    {
+        return 15;
     }
 }

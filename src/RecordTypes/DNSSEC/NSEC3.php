@@ -96,9 +96,4 @@ class NSEC3 extends NSEC
     {
         return 50;
     }
-
-    public static function getDescription(): string
-    {
-        return 'NSEC3';
-    }
 }

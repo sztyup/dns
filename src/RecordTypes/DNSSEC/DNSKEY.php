@@ -81,16 +81,6 @@ class DNSKEY extends ResourceRecord
         return $flags;
     }
 
-    public static function getId(): int
-    {
-        return 48;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'DNSKEY';
-    }
-
     protected function getTextRepresentation(): string
     {
         return sprintf(
@@ -100,5 +90,10 @@ class DNSKEY extends ResourceRecord
             $this->algorithm,
             base64_encode($this->key)
         );
+    }
+
+    public static function getId(): int
+    {
+        return 48;
     }
 }

@@ -10,9 +10,4 @@ class CDS extends DS
     {
         return 59;
     }
-
-    public static function getDescription(): string
-    {
-        return 'Child DS';
-    }
 }

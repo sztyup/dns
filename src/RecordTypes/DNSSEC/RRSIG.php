@@ -119,9 +119,4 @@ class RRSIG extends ResourceRecord
     {
         return 46;
     }
-
-    public static function getDescription(): string
-    {
-        return 'RRSIG';
-    }
 }
