@@ -33,6 +33,14 @@ class DnsConstants
     public const CLASS_NONE   = 254;
     public const CLASS_ANY    = 255;
 
+    public const CLASSES = [
+        self::CLASS_IN     => 'IN',
+        self::CLASS_CHAOS  => 'CH',
+        self::CLASS_HESIOD => 'HS',
+        self::CLASS_NONE   => 'NONE',
+        self::CLASS_ANY    => 'ANY',
+    ];
+
     public const OPCODES = [
         0 => self::OPCODE_STANDARD_QUERY,
         1 => self::OPCODE_INVERSE_QUERY,
@@ -42,101 +50,37 @@ class DnsConstants
         6 => self::OPCODE_STATEFUL,
     ];
 
-    public const CLASSES = [
-        self::CLASS_IN     => 'IN',
-        self::CLASS_CHAOS  => 'CH',
-        self::CLASS_HESIOD => 'HS',
-        self::CLASS_NONE   => 'NONE',
-        self::CLASS_ANY    => 'ANY',
-    ];
-
     /** @var ResourceRecord[] */
     public const RECORD_TYPES = [
-        1     => \Sztyup\Dns\RecordTypes\A::class,
-        2     => \Sztyup\Dns\RecordTypes\NS::class,
-        3     => \Sztyup\Dns\RecordTypes\MD::class,
-        4     => \Sztyup\Dns\RecordTypes\MF::class,
-        5     => \Sztyup\Dns\RecordTypes\CNAME::class,
-        6     => \Sztyup\Dns\RecordTypes\SOA::class,
-        7     => \Sztyup\Dns\RecordTypes\MB::class,
-        8     => \Sztyup\Dns\RecordTypes\MG::class,
-        9     => \Sztyup\Dns\RecordTypes\MR::class,
-        11    => \Sztyup\Dns\RecordTypes\WKS::class,
-        12    => \Sztyup\Dns\RecordTypes\PTR::class,
-        13    => \Sztyup\Dns\RecordTypes\HINFO::class,
-        14    => \Sztyup\Dns\RecordTypes\MINFO::class,
-        15    => \Sztyup\Dns\RecordTypes\MX::class,
-        16    => \Sztyup\Dns\RecordTypes\TXT::class,
-        17    => \Sztyup\Dns\RecordTypes\RP::class,
-        18    => \Sztyup\Dns\RecordTypes\AFSDB::class,
-        19    => \Sztyup\Dns\RecordTypes\X25::class,
-        20    => \Sztyup\Dns\RecordTypes\ISDN::class,
-        21    => \Sztyup\Dns\RecordTypes\RT::class,
-        24    => \Sztyup\Dns\RecordTypes\SIG::class,
-        25    => \Sztyup\Dns\RecordTypes\KEY::class,
-        26    => \Sztyup\Dns\RecordTypes\PX::class,
-        27    => \Sztyup\Dns\RecordTypes\GPOS::class,
-        28    => \Sztyup\Dns\RecordTypes\AAAA::class,
-        29    => \Sztyup\Dns\RecordTypes\LOC::class,
-        30    => \Sztyup\Dns\RecordTypes\NXT::class,
-        31    => \Sztyup\Dns\RecordTypes\EID::class,
-        32    => \Sztyup\Dns\RecordTypes\NIMLOC::class,
-        33    => \Sztyup\Dns\RecordTypes\SRV::class,
-        34    => \Sztyup\Dns\RecordTypes\ATMA::class,
-        35    => \Sztyup\Dns\RecordTypes\NAPTR::class,
-        36    => \Sztyup\Dns\RecordTypes\KX::class,
-        37    => \Sztyup\Dns\RecordTypes\CERT::class,
-        39    => \Sztyup\Dns\RecordTypes\DNAME::class,
-        40    => \Sztyup\Dns\RecordTypes\SINK::class,
-        41    => \Sztyup\Dns\RecordTypes\OPT::class,
-        42    => \Sztyup\Dns\RecordTypes\APL::class,
-        43    => \Sztyup\Dns\RecordTypes\DS::class,
-        44    => \Sztyup\Dns\RecordTypes\SSHFP::class,
-        45    => \Sztyup\Dns\RecordTypes\IPSECKEY::class,
-        46    => \Sztyup\Dns\RecordTypes\RRSIG::class,
-        47    => \Sztyup\Dns\RecordTypes\NSEC::class,
-        48    => \Sztyup\Dns\RecordTypes\DNSKEY::class,
-        49    => \Sztyup\Dns\RecordTypes\DHCID::class,
-        50    => \Sztyup\Dns\RecordTypes\NSEC3::class,
-        51    => \Sztyup\Dns\RecordTypes\NSEC3PARAM::class,
-        52    => \Sztyup\Dns\RecordTypes\TLSA::class,
-        53    => \Sztyup\Dns\RecordTypes\SMIMEA::class,
-        55    => \Sztyup\Dns\RecordTypes\HIP::class,
-        56    => \Sztyup\Dns\RecordTypes\NINFO::class,
-        57    => \Sztyup\Dns\RecordTypes\RKEY::class,
-        58    => \Sztyup\Dns\RecordTypes\TALINK::class,
-        59    => \Sztyup\Dns\RecordTypes\CDS::class,
-        60    => \Sztyup\Dns\RecordTypes\CDNSKEY::class,
-        61    => \Sztyup\Dns\RecordTypes\OPENPGPKEY::class,
-        62    => \Sztyup\Dns\RecordTypes\CSYNC::class,
-        63    => \Sztyup\Dns\RecordTypes\ZONEMD::class,
-        64    => \Sztyup\Dns\RecordTypes\SVCB::class,
-        65    => \Sztyup\Dns\RecordTypes\HTTPS::class,
-        99    => \Sztyup\Dns\RecordTypes\SPF::class,
-        100   => \Sztyup\Dns\RecordTypes\UINFO::class,
-        101   => \Sztyup\Dns\RecordTypes\UID::class,
-        102   => \Sztyup\Dns\RecordTypes\GID::class,
-        103   => \Sztyup\Dns\RecordTypes\UNSPEC::class,
-        104   => \Sztyup\Dns\RecordTypes\NID::class,
-        105   => \Sztyup\Dns\RecordTypes\L32::class,
-        106   => \Sztyup\Dns\RecordTypes\L64::class,
-        107   => \Sztyup\Dns\RecordTypes\LP::class,
-        108   => \Sztyup\Dns\RecordTypes\EUI48::class,
-        109   => \Sztyup\Dns\RecordTypes\EUI64::class,
-        249   => \Sztyup\Dns\RecordTypes\TKEY::class,
-        250   => \Sztyup\Dns\RecordTypes\TSIG::class,
-        251   => \Sztyup\Dns\RecordTypes\IXFR::class,
-        252   => \Sztyup\Dns\RecordTypes\AXFR::class,
-        253   => \Sztyup\Dns\RecordTypes\MAILB::class,
-        254   => \Sztyup\Dns\RecordTypes\MAILA::class,
-        256   => \Sztyup\Dns\RecordTypes\URI::class,
-        257   => \Sztyup\Dns\RecordTypes\CAA::class,
-        258   => \Sztyup\Dns\RecordTypes\AVC::class,
-        259   => \Sztyup\Dns\RecordTypes\DOA::class,
-        260   => \Sztyup\Dns\RecordTypes\AMTRELAY::class,
-        32768 => \Sztyup\Dns\RecordTypes\TA::class,
-        32769 => \Sztyup\Dns\RecordTypes\DLV::class,
+        1     => RecordTypes\Common\A::class,
+        2     => RecordTypes\Common\NS::class,
+        5     => RecordTypes\Common\CNAME::class,
+        6     => RecordTypes\Common\SOA::class,
+        12    => RecordTypes\Common\PTR::class,
+        15    => RecordTypes\Common\MX::class,
+        16    => RecordTypes\Common\TXT::class,
+        28    => RecordTypes\Common\AAAA::class,
+        41    => RecordTypes\OPT::class,
+        43    => RecordTypes\DNSSEC\DS::class,
+        46    => RecordTypes\DNSSEC\RRSIG::class,
+        47    => RecordTypes\DNSSEC\NSEC::class,
+        48    => RecordTypes\DNSSEC\DNSKEY::class,
+        50    => RecordTypes\DNSSEC\NSEC3::class,
+        51    => RecordTypes\DNSSEC\NSEC3PARAM::class,
+        59    => RecordTypes\DNSSEC\CDS::class,
+        60    => RecordTypes\DNSSEC\CDNSKEY::class,
     ];
+
+    public static function getRecordName(int $typeId): string
+    {
+        $type = self::RECORD_TYPES[$typeId] ?? null;
+
+        if ($type === null) {
+            return 'TYPE' . $typeId;
+        }
+
+        return $type::getName();
+    }
 
     public const OPT_CODES = [
         5 => DAU::class,
