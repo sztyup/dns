@@ -22,18 +22,23 @@ abstract class ResourceRecord implements HasWireFormat
     public static function fromWireFormat(StringStream $stream, int $length): static
     {
         $name       = DataFormats::readDomainName($stream);
-        $type       = DnsConstants::RECORD_TYPES[$stream->readUInt16()];
+        $typeId     = $stream->readUInt16();
         $class      = $stream->readUInt16();
         $ttl        = $stream->readUInt32();
         $dataLength = $stream->readUInt16();
         $end        = $stream->tell() + $dataLength;
 
-        $record = new $type($name, $class, $ttl);
+        $type = DnsConstants::RECORD_TYPES[$typeId] ?? null;
+        if ($type === null) {
+            $record = new Unknown($name, $class, $ttl, $typeId);
+        } else {
+            $record = new $type($name, $class, $ttl);
+        }
+
         $record->parseData($stream, $dataLength);
 
         if ($stream->tell() !== $end) {
             throw new RuntimeException('Invalid message'); // RDATA processing went over the length of RDATA or skipped
-//            $stream->seek($end);
         }
 
         return $record;
@@ -45,7 +50,7 @@ abstract class ResourceRecord implements HasWireFormat
 
         $query->append(DataFormats::writeDomainName($this->name)); // NAME
 
-        $query->writeUInt16(static::getId()); // TYPE
+        $query->writeUInt16($this->getActualId()); // TYPE
 
         $query->writeUInt16($this->class); // CLASS (UDP payload size)
 
@@ -66,7 +71,7 @@ abstract class ResourceRecord implements HasWireFormat
 
         $string->append(DataFormats::writeDomainName(strtolower($this->name)));
 
-        $string->writeUInt16(static::getId());
+        $string->writeUInt16($this->getActualId());
 
         $string->writeUInt16($this->class);
 
@@ -83,10 +88,17 @@ abstract class ResourceRecord implements HasWireFormat
 
     public function __toString(): string
     {
+        $class = DnsConstants::CLASSES[$this->class] ?? null;
+
+        if ($class === null) {
+            $class = 'CLASS' . $this->class;
+        }
+
         return sprintf(
-            '%s. %s %s %s',
+            '%s. %d %s %s %s',
             $this->name,
-            DnsConstants::CLASSES[$this->class],
+            $this->ttl,
+            $class,
             static::getName(),
             $this->getTextRepresentation()
         );
@@ -106,6 +118,11 @@ abstract class ResourceRecord implements HasWireFormat
     public function getCanonicalData(): BinaryString
     {
         return $this->wireData();
+    }
+
+    public function getActualId(): int
+    {
+        return static::getId();
     }
 
     abstract protected function getTextRepresentation(): string;

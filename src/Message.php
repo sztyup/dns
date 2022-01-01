@@ -6,9 +6,9 @@ namespace Sztyup\Dns;
 
 use RuntimeException;
 use Sztyup\Dns\DNSSEC\SignedSet;
+use Sztyup\Dns\RecordTypes\DNSSEC\RRSIG;
 use Sztyup\Dns\RecordTypes\OPT;
 use Sztyup\Dns\RecordTypes\ResourceRecord;
-use Sztyup\Dns\RecordTypes\RRSIG;
 use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\StringStream;
 
@@ -73,7 +73,6 @@ class Message implements HasWireFormat
         $message->disableAuth        = (bool)($flags & DnsConstants::FLAG_CHECKING_DISABLED);
 
         $message->errorCode = $flags & DnsConstants::RCODE_MASK;
-
 
         for ($i = 0; $i < $qdcount; $i++) {
             $message->questions[] = Question::fromWireFormat($stream, $length);
@@ -171,19 +170,19 @@ class Message implements HasWireFormat
     {
         $result = [];
         foreach ($this->answers as $answer) {
-            if ($answer::getId() === $type) {
+            if ($answer->getActualId() === $type) {
                 $result[] = $answer;
             }
         }
 
         foreach ($this->nameServerRecords as $nsRecord) {
-            if ($nsRecord::getId() === $type) {
+            if ($nsRecord->getActualId() === $type) {
                 $result[] = $nsRecord;
             }
         }
 
         foreach ($this->additionalRecords as $arRecord) {
-            if ($arRecord::getId() === $type) {
+            if ($arRecord->getActualId() === $type) {
                 $result[] = $arRecord;
             }
         }
@@ -200,8 +199,7 @@ class Message implements HasWireFormat
 
         /** @var RRSIG $rrsig */
         foreach ($this->getRecordsByType(RRSIG::getId()) as $rrsig) {
-            $name = DnsConstants::RECORD_TYPES[$rrsig->typeCovered]::getName();
-            $sets[$name] = new SignedSet($this->getRecordsByType($rrsig->typeCovered), $rrsig);
+            $sets[$rrsig->typeCovered] = new SignedSet($this->getRecordsByType($rrsig->typeCovered), $rrsig);
         }
 
         return $sets;
