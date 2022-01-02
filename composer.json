@@ -13,6 +13,7 @@
     "require": {
         "php": ">=8.0",
         "ext-sockets": "*",
+        "ext-simplexml": "*",
         "ext-openssl": "*",
         "clue/socket-raw": "^1.5",
         "mlocati/ip-lib": "^1.17",
