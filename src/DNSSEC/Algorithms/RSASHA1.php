@@ -18,4 +18,9 @@ class RSASHA1 extends RSASHA
             ->withHash('sha1')
             ->withPadding(RSA::SIGNATURE_PKCS1);
     }
+
+    public static function getID(): int
+    {
+        return 5;
+    }
 }

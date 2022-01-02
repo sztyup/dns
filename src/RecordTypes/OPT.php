@@ -6,6 +6,8 @@ namespace Sztyup\Dns\RecordTypes;
 
 use RuntimeException;
 use Sztyup\Dns\DnsConstants;
+use Sztyup\Dns\DNSSEC\Algorithms\RSASHA1;
+use Sztyup\Dns\DNSSEC\Algorithms\RSASHA256;
 use Sztyup\Dns\Meta\OptCodes\DAU;
 use Sztyup\Dns\Meta\OptCodes\OptCode;
 use Sztyup\Dns\Utilities\BinaryString;
@@ -38,7 +40,10 @@ class OPT extends ResourceRecord
 
         $new = new self('', 4096, $flags);
 
-        $new->options[] = new DAU();
+        $new->options[] = DAU::create([
+            RSASHA1::getID(),
+            RSASHA256::getID()
+        ]);
 
         return $new;
     }
@@ -49,9 +54,9 @@ class OPT extends ResourceRecord
 
         $flags = $this->ttl;
 
-        $this->extendedErrorCode = ($flags & self::MASK_RCODE)>> 24;
-        $this->version = ($flags & self::MASK_VERSION) >> 16;
-        $this->dnssec  = (bool)($flags & self::FLAG_DO);
+        $this->extendedErrorCode = ($flags & self::MASK_RCODE) >> 24;
+        $this->version           = ($flags & self::MASK_VERSION) >> 16;
+        $this->dnssec            = (bool)($flags & self::FLAG_DO);
 
         $start = $stream->tell();
         while ($stream->tell() < $start + $length) {

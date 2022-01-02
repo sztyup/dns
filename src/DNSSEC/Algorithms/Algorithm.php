@@ -9,4 +9,6 @@ use phpseclib3\Crypt\Common\PublicKey;
 interface Algorithm
 {
     public function toPublicKey(): PublicKey;
+
+    public static function getID(): int;
 }

@@ -18,4 +18,9 @@ class RSASHA256 extends RSASHA
             ->withHash('sha256')
             ->withPadding(RSA::SIGNATURE_PKCS1);
     }
+
+    public static function getID(): int
+    {
+        return 8;
+    }
 }

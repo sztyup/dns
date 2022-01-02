@@ -12,7 +12,16 @@ abstract class RFC6975 extends OptCode
 {
     public const ALGORITHMS = [];
 
-    public array $supportedAlgorithms = [];
+    public array $supportedAlgorithms;
+
+    public static function create(array $algorithms): static
+    {
+        $new = new static();
+
+        $new->supportedAlgorithms = $algorithms;
+
+        return $new;
+    }
 
     public static function fromWireFormat(StringStream $stream, int $length): static
     {
