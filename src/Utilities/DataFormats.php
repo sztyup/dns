@@ -24,18 +24,21 @@ class DataFormats
         return $chain;
     }
 
-    public static function writeDomainName(string $domainName): string
+    public static function writeDomainName(string $domainName): BinaryString
     {
+        $string = new BinaryString();
+
         if ($domainName === '') {
-            return pack('C', 0);
+            $string->writeUInt8(0);
+            return $string;
         }
 
-        $string = '';
         foreach (explode('.', $domainName) as $part) {
             // each label consists of a length octet followed by that number of octets.
-            $string .= pack('C', strlen($part)) . $part;
+            $string->writeUInt8(strlen($part));
+            $string->append($part);
         }
-        $string .= pack('C', 0); // The domain name terminates with the zero length octet for the null label of the root
+        $string->writeUInt8(0); // The domain name terminates with the zero length octet for the null label of the root
 
         return $string;
     }
@@ -50,18 +53,14 @@ class DataFormats
     {
         $labels = [];
         do {
-            $length = unpack('C', $stream->read(1));
+            $length = $stream->readUInt8();
 
-            if ($length === false) {
-                throw new RuntimeException('Invalid label');
-            }
-
-            if ($length[1] === 0) {
+            if ($length === 0) {
                 break;
             }
 
-            if ($length[1] & 0b11000000) { // pointer TODO test combinations
-                $offset = (0b00111111 & $length[1]) << 8;
+            if (($length & 0b11000000) === 0b11000000) { // pointer TODO test combinations
+                $offset = (0b00111111 & $length) << 8;
                 $offset += $stream->readUInt8();
 
                 $current = $stream->tell();
@@ -75,7 +74,7 @@ class DataFormats
 
             // TODO handle reserved 10 and 01 starting bits ("The 10 and 01 combinations are reserved for future use")
 
-            $labels[] = $stream->read($length[1]);
+            $labels[] = $stream->read($length);
         } while (true);
 
         return $labels;
