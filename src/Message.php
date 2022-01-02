@@ -103,7 +103,7 @@ class Message implements HasWireFormat
     {
         $query = new BinaryString();
 
-        $query->writeUInt16(random_int(0, 2 ** 14)); // ID
+        $query->writeUInt16($this->id); // ID
 
         $flags = 0;
 

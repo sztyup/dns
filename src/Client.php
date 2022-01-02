@@ -41,7 +41,7 @@ class Client
     {
         $request = $this->queryBuilder->build($domain, $typeId);
 
-        $response = $this->sendByTCP($request->toWireFormat()->toString());
+        $response = $this->sendByUDP($request->toWireFormat()->toString());
 
         $message = Message::fromWireFormat($response, $response->length());
 

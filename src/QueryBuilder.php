@@ -13,9 +13,11 @@ class QueryBuilder
         int    $recordType,
         int    $class = DnsConstants::CLASS_IN
     ): Message {
-        $message                   = new Message();
-        $message->qr               = 0; // query
-        $message->opcode           = 0; // Standard query
+        $message         = new Message();
+        $message->id     = random_int(1, 5000);
+        $message->qr     = 0; // query
+        $message->opcode = 0; // Standard query
+
         $message->recursionRequest = true;
 
         $message->questions[] = Question::createFrom($domain, $recordType, $class);
