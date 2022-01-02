@@ -36,7 +36,7 @@ class OPT extends ResourceRecord
             $flags |= self::FLAG_DO;
         }
 
-        $new = new self('', 512, $flags);
+        $new = new self('', 4096, $flags);
 
         $new->options[] = new DAU();
 

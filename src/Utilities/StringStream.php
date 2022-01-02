@@ -74,7 +74,11 @@ class StringStream
             return substr($this->string, $this->offset -= $length, $length);
         }
 
-        return substr($this->string, $this->offset += $length, $length);
+        $result = substr($this->string, $this->offset, $length);
+
+        $this->offset += $length;
+
+        return $result;
     }
 
     public function peek(int $length): string

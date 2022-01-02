@@ -8,6 +8,8 @@ use RuntimeException;
 use Sztyup\Dns\RecordTypes\DNSSEC\DNSKEY;
 use Sztyup\Dns\RecordTypes\DNSSEC\DS;
 
+use function array_key_exists;
+
 class Link
 {
     public string $zone;
@@ -26,6 +28,8 @@ class Link
 
     public function verify(): void
     {
+        $this->ensureRequiredSets();
+
         $digestVerified = false;
         /** @var DNSKEY $dnskey */
         foreach ($this->sets[DNSKEY::getId()]->records as $dnskey) {
@@ -69,6 +73,13 @@ class Link
 
         if (!hash_equals($this->parent->digest, $calculated)) {
             throw new RuntimeException('Invalid digest');
+        }
+    }
+
+    private function ensureRequiredSets(): void
+    {
+        if (!array_key_exists(DNSKEY::getId(), $this->sets)) {
+            throw new RuntimeException('Link (' . $this->zone . ') does not have any DNSKEY needed for verification');
         }
     }
 }
