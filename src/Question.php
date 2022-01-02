@@ -8,7 +8,7 @@ use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\DataFormats;
 use Sztyup\Dns\Utilities\StringStream;
 
-class Question implements HasWireFormat
+class Question
 {
     public string $name;
 
@@ -16,26 +16,20 @@ class Question implements HasWireFormat
 
     public int $class;
 
-    public static function createFrom(string $name, int $type, int $class): Question
+    public function __construct(string $name, int $type, int $class)
     {
-        $new = new self();
-
-        $new->name  = $name;
-        $new->type  = $type;
-        $new->class = $class;
-
-        return $new;
+        $this->name  = $name;
+        $this->type  = $type;
+        $this->class = $class;
     }
 
-    public static function fromWireFormat(StringStream $stream, int $length): Question
+    public static function fromWireFormat(StringStream $stream): Question
     {
-        $new = new self();
-
-        $new->name  = DataFormats::readDomainName($stream);
-        $new->type  = $stream->readUInt16();
-        $new->class = $stream->readUInt16();
-
-        return $new;
+        return new self(
+            DataFormats::readDomainName($stream),
+            $stream->readUInt16(),
+            $stream->readUInt16()
+        );
     }
 
     public function toWireFormat(): BinaryString

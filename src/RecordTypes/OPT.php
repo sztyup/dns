@@ -40,7 +40,7 @@ class OPT extends ResourceRecord
 
         $new = new self('', 4096, $flags);
 
-        $new->options[] = DAU::create([
+        $new->options[] = new DAU([
             RSASHA1::getID(),
             RSASHA256::getID()
         ]);
@@ -98,10 +98,5 @@ class OPT extends ResourceRecord
     public static function getId(): int
     {
         return 41;
-    }
-
-    public static function getDescription(): string
-    {
-        return 'OPT';
     }
 }

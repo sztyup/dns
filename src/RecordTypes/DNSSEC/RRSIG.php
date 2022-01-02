@@ -40,8 +40,8 @@ class RRSIG extends ResourceRecord
         $this->algorithm           = $stream->readUInt8();
         $this->labels              = $stream->readUInt8();
         $this->originalTTL         = $stream->readUInt32();
-        $this->signatureExpiration = new DateTime('@' . $stream->readUInt32());
-        $this->signatureInception  = new DateTime('@' . $stream->readUInt32());
+        $this->signatureExpiration = DataFormats::parseTimestamp($stream->readUInt32());
+        $this->signatureInception  = DataFormats::parseTimestamp($stream->readUInt32());
         $this->keyTag              = $stream->readUInt16();
 
         $this->signerName = DataFormats::readDomainName($stream);

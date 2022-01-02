@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sztyup\Dns\RecordTypes\Common;
 
 use IPLib\Address\IPv6;
+use RuntimeException;
 use Sztyup\Dns\RecordTypes\ResourceRecord;
 use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\StringStream;
@@ -15,7 +16,7 @@ class AAAA extends ResourceRecord
 
     protected function parseData(StringStream $stream, int $length): void
     {
-        $this->ip = IPv6::fromBytes($stream->readByteArray(16));
+        $this->ip = IPv6::fromBytes($stream->readByteArray(16)) ?? throw new RuntimeException('Invalid IP in AAAA');
     }
 
     protected function wireData(): BinaryString

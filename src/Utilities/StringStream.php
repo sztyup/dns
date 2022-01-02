@@ -6,7 +6,6 @@ namespace Sztyup\Dns\Utilities;
 
 use RuntimeException;
 
-use function in_array;
 use function strlen;
 use function substr;
 
@@ -100,13 +99,6 @@ class StringStream
 
         if ($this->offset > $this->length) {
             throw new RuntimeException('Seek after EOF');
-        }
-    }
-
-    public function eatSpace()
-    {
-        while (!$this->eof() && in_array($this->peek(1), [' ', "\r", "\n", "\t"])) {
-            $this->read(1);
         }
     }
 

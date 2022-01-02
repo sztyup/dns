@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Sztyup\Dns\DNSSEC;
 
 use DateTime;
+use Exception;
 use RuntimeException;
 use SimpleXMLElement;
 use Sztyup\Dns\RecordTypes\DNSSEC\DS;
+use Sztyup\Dns\Utilities\DataFormats;
 
 final class TrustAnchor
 {
@@ -21,11 +23,15 @@ final class TrustAnchor
     {
         self::validate();
 
-        $element = new SimpleXMLElement(file_get_contents(self::XML));
+        try {
+            $element = new SimpleXMLElement(file_get_contents(self::XML));
+        } catch (Exception) {
+            throw new RuntimeException('Cannot parse root-anchors.xml file');
+        }
 
         foreach ($element->KeyDigest as $key) {
-            $from  = new DateTime((string)$key['validFrom']);
-            $until = new DateTime((string)$key['validUntil']);
+            $from  = DataFormats::parseAtom((string)$key['validFrom']);
+            $until = DataFormats::parseAtom((string)$key['validUntil']);
 
             if ($from < $now && $until > $now) {
                 return DS::create(

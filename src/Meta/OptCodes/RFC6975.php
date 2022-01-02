@@ -14,18 +14,14 @@ abstract class RFC6975 extends OptCode
 
     public array $supportedAlgorithms;
 
-    public static function create(array $algorithms): static
+    final public function __construct(array $supportedAlgorithms)
     {
-        $new = new static();
-
-        $new->supportedAlgorithms = $algorithms;
-
-        return $new;
+        $this->supportedAlgorithms = $supportedAlgorithms;
     }
 
     public static function fromWireFormat(StringStream $stream, int $length): static
     {
-        $new = new static();
+        $algorithms = [];
 
         for ($i = 0; $i < $length; $i++) {
             $code = $stream->readUInt8();
@@ -34,10 +30,10 @@ abstract class RFC6975 extends OptCode
                 throw new RuntimeException('Unsupported algorithm code');
             }
 
-            $new->supportedAlgorithms[] = $code;
+            $algorithms[] = $code;
         }
 
-        return $new;
+        return new static($algorithms);
     }
 
     public function toWireFormat(): BinaryString

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sztyup\Dns;
 
+use InvalidArgumentException;
 use IPLib\Address\AddressInterface;
 use IPLib\Address\IPv4;
 use RuntimeException;
@@ -26,13 +27,13 @@ class Client
     {
         $this->socketFactory = new Factory();
         $this->queryBuilder  = new QueryBuilder();
-        $this->server        = IPv4::parseString($server);
+        $this->server        = IPv4::parseString($server) ?? throw new InvalidArgumentException('Invalid server IP');
         $this->serverPort    = 53;
     }
 
     public function by(string $server): static
     {
-        $this->server = IPv4::parseString($server);
+        $this->server = IPv4::parseString($server) ?? throw new InvalidArgumentException('Invalid server IP');
 
         return $this;
     }
@@ -43,7 +44,11 @@ class Client
 
         $response = $this->sendByUDP($request->toWireFormat()->toString());
 
-        $message = Message::fromWireFormat($response, $response->length());
+        $message = Message::fromWireFormat($response);
+
+        if ($request->id !== $message->id) {
+            throw new RuntimeException('ID mismatch!');
+        }
 
         if ($message->hasError()) {
             throw new RuntimeException('DNS ERROR: ' . DnsConstants::ERROR_TYPES[$message->errorCode][0]);

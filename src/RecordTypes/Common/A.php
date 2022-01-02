@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sztyup\Dns\RecordTypes\Common;
 
 use IPLib\Address\IPv4;
+use RuntimeException;
 use Sztyup\Dns\RecordTypes\ResourceRecord;
 use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\StringStream;
@@ -15,7 +16,7 @@ class A extends ResourceRecord
 
     protected function parseData(StringStream $stream, int $length): void
     {
-        $this->ip = IPv4::fromBytes($stream->readByteArray(4));
+        $this->ip = IPv4::fromBytes($stream->readByteArray(4)) ?? throw new RuntimeException('Invalid IP in A');
     }
 
     protected function wireData(): BinaryString

@@ -14,13 +14,13 @@ use Sztyup\Dns\Utilities\StringStream;
 
 use function count;
 
-class Message implements HasWireFormat
+class Message
 {
     public int $id;
 
-    public int $opcode;
+    public int $opcode = 0;
 
-    public int $qr;
+    public int $qr = 0;
 
     public bool $authoritative = false;
 
@@ -48,15 +48,18 @@ class Message implements HasWireFormat
     /** @var ResourceRecord[] */
     public array $additionalRecords = [];
 
-    public static function fromWireFormat(StringStream $stream, int $length): Message
+    public function __construct(int $id)
     {
-        $message = new self();
+        $this->id = $id;
+    }
 
-        $message->id = $stream->readUInt16();
+    public static function fromWireFormat(StringStream $stream): self
+    {
+        $message = new self($stream->readUInt16());
 
         $flags = $stream->readUInt16();
 
-        if ($flags & DnsConstants::QR_RESPONSE === 0) {
+        if (($flags & DnsConstants::QR_RESPONSE) === 0) {
             throw new RuntimeException('Response arrived with query QR type');
         }
 
@@ -75,19 +78,19 @@ class Message implements HasWireFormat
         $message->errorCode = $flags & DnsConstants::RCODE_MASK;
 
         for ($i = 0; $i < $qdcount; $i++) {
-            $message->questions[] = Question::fromWireFormat($stream, $length);
+            $message->questions[] = Question::fromWireFormat($stream);
         }
 
         for ($i = 0; $i < $ancount; $i++) {
-            $message->answers[] = ResourceRecord::fromWireFormat($stream, $length);
+            $message->answers[] = ResourceRecord::fromWireFormat($stream);
         }
 
         for ($i = 0; $i < $nscount; $i++) {
-            $message->nameServerRecords[] = ResourceRecord::fromWireFormat($stream, $length);
+            $message->nameServerRecords[] = ResourceRecord::fromWireFormat($stream);
         }
 
         for ($i = 0; $i < $arcount; $i++) {
-            $message->additionalRecords[] = ResourceRecord::fromWireFormat($stream, $length);
+            $message->additionalRecords[] = ResourceRecord::fromWireFormat($stream);
         }
 
         if (!$stream->eof()) {

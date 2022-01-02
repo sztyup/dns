@@ -101,7 +101,7 @@ class SecureClient
 
     private function queryByNsCandidates(string $domain, int $typeId, array $candidates): Message
     {
-        foreach ($candidates as $name => $ip) {
+        foreach ($candidates as $ip) {
             try {
                 $message = $this->client->by($ip)->query($domain, $typeId);
             } catch (RuntimeException) {

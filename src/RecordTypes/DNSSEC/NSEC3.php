@@ -70,7 +70,7 @@ class NSEC3 extends NSEC
         $flags = 0;
 
         if ($this->optOut) {
-            $flags |= $this->optOut;
+            $flags |= self::FLAG_OPT_OUT;
         }
 
         return $flags;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sztyup\Dns\Utilities;
 
+use DateTime;
+use Exception;
 use RuntimeException;
 
 use function strlen;
@@ -78,5 +80,23 @@ class DataFormats
         } while (true);
 
         return $labels;
+    }
+
+    public static function parseTimestamp(int $timestamp): DateTime
+    {
+        try {
+            return new DateTime('@' . $timestamp);
+        } catch (Exception) {
+            throw new RuntimeException('Invalid timestamp: ' . $timestamp);
+        }
+    }
+
+    public static function parseAtom(string $atom): DateTime
+    {
+        try {
+            return new DateTime($atom);
+        } catch (Exception) {
+            throw new RuntimeException('Invalid datetime: ' . $atom);
+        }
     }
 }

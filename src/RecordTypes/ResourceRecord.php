@@ -6,20 +6,19 @@ namespace Sztyup\Dns\RecordTypes;
 
 use RuntimeException;
 use Sztyup\Dns\DnsConstants;
-use Sztyup\Dns\HasWireFormat;
 use Sztyup\Dns\Utilities\BinaryString;
 use Sztyup\Dns\Utilities\DataFormats;
 use Sztyup\Dns\Utilities\StringStream;
 
 use function strlen;
 
-abstract class ResourceRecord implements HasWireFormat
+abstract class ResourceRecord
 {
     public function __construct(public string $name, public int $class, public int $ttl)
     {
     }
 
-    public static function fromWireFormat(StringStream $stream, int $length): static
+    public static function fromWireFormat(StringStream $stream): ResourceRecord
     {
         $name       = DataFormats::readDomainName($stream);
         $typeId     = $stream->readUInt16();

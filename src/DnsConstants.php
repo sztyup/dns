@@ -50,7 +50,7 @@ class DnsConstants
         6 => self::OPCODE_STATEFUL,
     ];
 
-    /** @var ResourceRecord[] */
+    /** @var class-string<ResourceRecord>[] */
     public const RECORD_TYPES = [
         1     => RecordTypes\Common\A::class,
         2     => RecordTypes\Common\NS::class,

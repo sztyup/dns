@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sztyup\Dns\DNSSEC;
 
-use Sztyup\Dns\DnsConstants;
+use Sztyup\Dns\RecordTypes\ResourceRecord;
 
 use function count;
 use function in_array;

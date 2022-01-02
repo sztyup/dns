@@ -6,16 +6,22 @@ namespace Sztyup\Dns\DNSSEC\Algorithms;
 
 use phpseclib3\Crypt\Common\PublicKey;
 use phpseclib3\Crypt\RSA;
+use RuntimeException;
 
 class RSASHA1 extends RSASHA
 {
     public function toPublicKey(): PublicKey
     {
-        return RSA::loadPublicKey([
+        $key = RSA::loadParameters([
             'modulus'  => $this->modulus,
             'exponent' => $this->exponent,
-        ])
-            ->withHash('sha1')
+        ]);
+
+        if (!$key instanceof RSA) {
+            throw new RuntimeException('Cannot create RSA key');
+        }
+
+        return $key->withHash('sha1')
             ->withPadding(RSA::SIGNATURE_PKCS1);
     }
 
