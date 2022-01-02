@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sztyup\Dns\DNSSEC;
 
+use DateTime;
 use RuntimeException;
 use Sztyup\Dns\Client;
 use Sztyup\Dns\DnsConstants;
@@ -36,7 +37,7 @@ class SecureClient
     {
         $nsCandidates = array_column(DnsConstants::ROOT_SERVERS, 0);
 
-        $ds = TrustAnchor::getDS();
+        $ds = TrustAnchor::getDS(new DateTime());
 
         $links = [];
         foreach (DataFormats::domainChain($domain) as $zone) {
