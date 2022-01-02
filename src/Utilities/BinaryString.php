@@ -34,13 +34,6 @@ class BinaryString
         }
     }
 
-    public function writeHexBytes(string $bytes): void
-    {
-        foreach (explode(' ', $bytes) as $byte) {
-            $this->writeUInt8(hexdec($byte));
-        }
-    }
-
     public function append(BinaryString|string $string): void
     {
         $this->string .= $string;
