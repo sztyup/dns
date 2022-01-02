@@ -20,7 +20,7 @@ class PTR extends ResourceRecord
 
     protected function wireData(): BinaryString
     {
-        return new BinaryString(DataFormats::writeDomainName($this->domain));
+        return DataFormats::writeDomainName($this->domain);
     }
 
     protected function getTextRepresentation(): string
