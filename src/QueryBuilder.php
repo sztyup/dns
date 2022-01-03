@@ -12,8 +12,8 @@ class QueryBuilder
 {
     public function build(
         string $domain,
-        int    $recordType,
-        int    $class = DnsConstants::CLASS_IN
+        int $recordType,
+        int $class = DnsConstants::CLASS_IN
     ): Message {
         $message         = new Message($this->generateID());
         $message->qr     = 0; // query
